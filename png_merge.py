@@ -5,6 +5,7 @@ import pathlib
 from typing import Tuple
 from PIL import Image
 from colorama import Fore, init as colorama_init
+from shutil import copyfile
 
 
 def deslash(s: str) -> str:
@@ -52,7 +53,8 @@ def process(prod: str, updates: str, upath: str, files: list) -> None:
             if pathlib.Path(bg).is_file():
                 composite(bg, fg)
             else:
-                print(Fore.RED + f"no base {bg} for update {fg}, skipping")
+                print(Fore.RED + f"no base {bg} for update {fg}, coping")
+                copyfile(fg, bg)
 
 
 @click.command()
