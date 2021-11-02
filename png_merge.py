@@ -54,6 +54,8 @@ def process(prod: str, updates: str, upath: str, files: list) -> None:
                 composite(bg, fg)
             else:
                 print(Fore.RED + f"no base {bg} for update {fg}, coping")
+                p = pathlib.Path(bg).parent
+                pathlib.Path(p).mkdir(parents=True, exist_ok=True)
                 copyfile(fg, bg)
 
 
