@@ -24,7 +24,7 @@ def both(conf: dict, u11: str, fn: str) -> Tuple[str, str]:
     return deslash(bg), deslash(fg)
 
 
-def check_errors(bi: Image, fi: Image) -> None:
+def check_errors(bi: Image.Image, fi: Image.Image) -> None:
     if bi.format != fi.format:
         msg = f"'{bi.format=}' but '{fi.format=}'"
         raise ValueError(msg)
@@ -54,12 +54,12 @@ def process(conf: dict, upath: str, files: list) -> None:
     for fn in sorted(files):
         if fn.endswith(".png"):
             bg, fg = both(conf, upath, fn)
-            if pathlib.Path(bg).is_file():
+            bg_path = pathlib.Path(bg)
+            if bg_path.is_file():
                 composite(bg, fg, conf["flip"])
             else:
                 print(Fore.RED + f"no base {bg} for update {fg}, coping")
-                p = pathlib.Path(bg).parent
-                pathlib.Path(p).mkdir(parents=True, exist_ok=True)
+                bg_path.parent.mkdir(parents=True, exist_ok=True)
                 copyfile(fg, bg)
 
 
